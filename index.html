@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OTP HUB - Futuristic</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=2">
+</head>
+
+<body>
+    <!-- App Container -->
+    <div class="app-container">
+
+        <!-- Header -->
+        <header class="glass-header">
+            <div class="header-top">
+                <h1 class="glow-text">OTP HUB <span class="neon-badge">PRO</span></h1>
+            </div>
+
+            <!-- Multi-Firebase Selector -->
+            <div class="firebase-selector">
+                <select id="firebase-url-select" class="futuristic-select">
+                    <option value="https://rt3demoba-default-rtdb.firebaseio.com">Server 1: RANDI KA BACHA SERVER
+                    </option>
+                    <option value="https://shy-and-default-rtdb.firebaseio.com">Server 2: MADHARCODE SERVER</option>
+                    <option value="https://navixpro-4ccae-default-rtdb.firebaseio.com">Server 3: KUTTA KA PILLA SERVER
+                    </option>
+                    <option value="https://max-a-cbe29-default-rtdb.firebaseio.com">Server 4: CHODNE KE LIYE BACHA
+                        SERVER</option>
+                </select>
+                <div class="status-indicator">
+                    <div class="pulse-dot"></div>
+                    <span id="app-status">Connected</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content (Tabs) -->
+        <main class="content-area">
+
+            <!-- TAB: SENDER -->
+            <section id="tab-sender" class="tab-content active">
+                <div class="controls-group">
+                    <input type="text" id="device-search" class="futuristic-input" placeholder="Search devices...">
+                    <div class="action-buttons">
+                        <button id="btn-fetch-devices" class="btn btn-primary"><i class="fas fa-sync-alt" style="margin-right:5px;"></i> Fetch All</button>
+                        <button id="btn-toggle-mute" class="btn btn-danger"><i class="fas fa-volume-mute" style="margin-right:5px;"></i> Toggle Mute</button>
+                    </div>
+                    <div class="filter-group">
+                        <label><input type="radio" name="dev-filter" value="all" checked> All</label>
+                        <label><input type="radio" name="dev-filter" value="active"> Active</label>
+                        <label><input type="radio" name="dev-filter" value="muted"> Muted</label>
+                    </div>
+                </div>
+
+                <div class="list-stats">
+                    Total Devices: <span id="dev-count" class="neon-text">0</span>
+                </div>
+
+                <!-- Device List -->
+                <div id="device-list" class="card-list">
+                    <!-- Cards will be injected here via JS -->
+                </div>
+            </section>
+
+            <!-- TAB: LOGS -->
+            <section id="tab-logs" class="tab-content">
+                <div class="controls-group">
+                    <div class="action-buttons">
+                        <button id="btn-fetch-sms" class="btn btn-primary"><i class="fas fa-sync-alt" style="margin-right:5px;"></i> Refresh Logs</button>
+                        <button id="btn-delete-sms" class="btn btn-danger"><i class="fas fa-trash-alt" style="margin-right:5px;"></i> Delete Selected</button>
+                    </div>
+                    <div class="toggle-row">
+                        <label>Show Muted Messages</label>
+                        <label class="switch">
+                            <input type="checkbox" id="show-muted-sms">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="list-stats">
+                    Total SMS: <span id="sms-count" class="neon-text">0</span>
+                </div>
+
+                <!-- SMS List -->
+                <div id="sms-list" class="card-list">
+                    <!-- Cards will be injected here via JS -->
+                </div>
+            </section>
+
+            <!-- TAB: BULK SENDER -->
+            <section id="tab-bulk-sender" class="tab-content">
+                <div class="bulk-sender-container" style="margin-top: 10px;">
+                    <h3 style="color:#00ff88; margin-bottom:15px;">Bulk Sender</h3>
+                    <div class="input-row">
+                        <input type="text" id="bulk-phone" class="futuristic-input" placeholder="Recipient Number">
+                    </div>
+                    <div class="input-row">
+                        <textarea id="bulk-msg" class="futuristic-input" rows="3" placeholder="Message Body"></textarea>
+                    </div>
+                    <div class="toggle-row" style="margin-bottom:15px; color:#aaa;">
+                        <span>Auto Send Device ID</span>
+                        <label class="switch">
+                            <input type="checkbox" id="bulk-append-id">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div style="display:flex; gap:15px; margin-bottom:20px; color:#aaa;">
+                        <label><input type="radio" name="bulk-sim" value="1" checked> SIM 1</label>
+                        <label><input type="radio" name="bulk-sim" value="2"> SIM 2</label>
+                    </div>
+                    <button id="btn-bulk-send" class="btn btn-primary w-full"
+                        style="background: #00ff88; color:#000; font-weight:bold;"><i class="fas fa-rocket" style="margin-right:5px;"></i> LAUNCH BULK SEND</button>
+
+                    <div style="margin-top:10px; font-size:12px; color:#aaa; text-align:right;">
+                        Progress: <span id="bulk-progress">0/0</span>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav glass-nav">
+            <button class="nav-btn active" data-target="tab-sender">
+                <span class="nav-icon">📱</span>
+                <span>Sender</span>
+            </button>
+            <button class="nav-btn" data-target="tab-logs">
+                <span class="nav-icon">💬</span>
+                <span>Logs</span>
+            </button>
+            <button class="nav-btn" data-target="tab-bulk-sender">
+                <span class="nav-icon"><i class="fas fa-paper-plane"></i></span>
+                <span>Bulk SMS</span>
+            </button>
+        </nav>
+
+        <!-- Modal for SMS details -->
+        <div id="sms-modal" class="modal">
+            <div class="modal-content glass-nav">
+                <span class="close-modal">&times;</span>
+                <h3 style="color:#00ff88;margin-bottom:10px;">SMS Body</h3>
+                <p id="sms-modal-body" style="word-wrap:break-word;color:#fff;"></p>
+            </div>
+        </div>
+
+        <!-- Modal for Device Details -->
+        <div id="device-modal" class="modal">
+            <div class="modal-content glass-nav" style="max-height: 80vh; overflow-y: auto;">
+                <span class="close-device-modal"
+                    style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+                <h3 id="dev-modal-title" style="color:#00ff88;margin-bottom:10px;">Device Details</h3>
+
+                <div id="dev-modal-info"
+                    style="color:#fff; font-size: 14px; margin-bottom: 20px; word-break: break-all; background: #222; padding: 10px; border-radius: 8px;">
+                    Loading info...
+                </div>
+
+                <h4 style="color: #0078d7; margin-bottom: 10px;">Send Message</h4>
+                <input type="text" id="dev-modal-phone" placeholder="Phone Number" class="futuristic-input"
+                    style="margin-bottom: 10px; width: 100%; box-sizing: border-box;">
+                <textarea id="dev-modal-msg" placeholder="Message Body" class="futuristic-input" rows="2"
+                    style="margin-bottom: 10px; width: 100%; box-sizing: border-box; resize: vertical;"></textarea>
+
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <label style="color:#aaa;"><input type="radio" name="dev-modal-sim" value="1" checked> SIM 1</label>
+                    <label style="color:#aaa;"><input type="radio" name="dev-modal-sim" value="2"> SIM 2</label>
+                </div>
+
+                <button id="dev-modal-send-btn" class="btn btn-primary" style="margin-bottom: 20px; width: 100%; box-sizing: border-box;"><i class="fas fa-paper-plane" style="margin-right:5px;"></i> SEND SMS TO
+                    DEVICE</button>
+
+                <h4 style="color: #0078d7; margin-bottom: 10px;">Recent SMS (Last 15)</h4>
+                <div id="dev-modal-sms-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="toast_script.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
